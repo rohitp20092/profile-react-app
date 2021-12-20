@@ -1,9 +1,10 @@
 import { ErrorMessage, FieldArray, Formik } from 'formik'
 import { Field, Form } from 'formik-antd'
 import React from 'react'
-import {  useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { value } from '../action/action'
+import {Button} from 'react-bootstrap'
 
 function EditProfile() {
   const dispatch = useDispatch()
@@ -12,13 +13,13 @@ function EditProfile() {
 
   console.log(profile_data)
   return (
-    <div className="edit-profile">
+    <div className="edit-profile container mt-5">
       <Formik
         initialValues={{
           firstname: profile_data[0].firstname,
           lastname: profile_data[0].lastname,
-          skills:profile_data[0].skills,
-          experience:profile_data[0].experience
+          skills: profile_data[0].skills,
+          experience: profile_data[0].experience
         }}
         onSubmit={values => {
           localStorage.setItem('profiledata', JSON.stringify(values))
@@ -28,11 +29,12 @@ function EditProfile() {
         }>
         {({ values, handleSubmit, handleChange }) => (
           <Form onSubmit={handleSubmit}>
+            <h1>Basic Details</h1>
             <label>First Name:</label>
             <Field type="text" name="firstname" value={values.firstname} onChange={handleChange} />
-            <button type="submit">submit</button>
             <label>Last Name:</label>
             <Field type="text" name="firstname" value={values.lastname} onChange={handleChange} />
+            <h1>Experience</h1>
             <FieldArray
               name="experience">
               {arrayHelpers => (
@@ -65,31 +67,34 @@ function EditProfile() {
                         </div>
 
 
-                        <button
+                        <Button
                           type="buttfriendson"
                           onClick={() => arrayHelpers.remove(index)} // remove a friend from the list
                         >
                           -
-                        </button>
-                        <button
-                          type="button"
+                        </Button>
+                        <Button
+                          type="Button"
                           onClick={() => arrayHelpers.insert(index, '')} // insert an empty string at a position
                         >
                           +
-                        </button>
+                        </Button>
                       </div>
                     ))
                   ) : (
-                    <button type="button" onClick={() => arrayHelpers.push('')} variant="primary">
+                    <Button type="Button" onClick={() => arrayHelpers.push('')} variant="primary">
                       {/* show this when user has removed all friends from the list */}
                       Add Experience
-                    </button>
+                    </Button>
                   )}
                   <div>
                   </div>
                 </div>
               )}
             </FieldArray>
+
+            <h1>Skills</h1>
+
             <FieldArray
               name="skills">
               {arrayHelpers => (
@@ -98,32 +103,32 @@ function EditProfile() {
                     values.skills.map((skill, index) => (
                       <div key={index}>
                         <Field name={`skills.${index}`} />
-                        <button
-                          type="button"
+                        <Button
+                          type="Button"
                           onClick={() => arrayHelpers.remove(index)} // remove a skill from the list
                         >
                           -
-                        </button>
-                        <button
-                          type="button"
+                        </Button>
+                        <Button
+                          type="Button"
                           onClick={() => arrayHelpers.insert(index, '')} // insert an empty string at a position
                         >
                           +
-                        </button>
+                        </Button>
                       </div>
                     ))
                   ) : (
-                    <button type="button" onClick={() => arrayHelpers.push('')} className="primary">
+                    <Button type="Button" onClick={() => arrayHelpers.push('')} className="primary">
                       {/* show this when user has removed all skills from the list */}
                       Add a skill
-                    </button>
+                    </Button>
                   )}
 
                 </div>
               )}
             </FieldArray>
 
-            <button type="submit">submit</button>
+            <Button className="mt-5" type="submit" variant="success">submit</Button>
           </Form>
         )}
 
